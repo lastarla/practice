@@ -9,6 +9,7 @@
             scrollWrapper: $(window),
             attr: 'data-src',
             distance: 100,
+            wait: 100,
             css: {
                 width: '100%',
                 height: '100%'
@@ -79,9 +80,26 @@
         _bindEvent: function () {
             var me = this;
 
-            me.$scrollWrapper.on('scroll.LazyLoad', function () {
+            me.$scrollWrapper.on('scroll.LazyLoad', me._throttle(function () {
                 me.start && me._loadImgs();
-            });
+            }, me.opts.wait));
+        },
+
+        _throttle: function (cb, wait) {
+            var me = this;
+
+            return function () {
+                var now = new Date().getTime();
+                me.last = me.last || 0;
+
+                me.scrollTimer = setTimeout(function () {
+                    cb && cb();
+                }, wait);
+
+                if (now - me.last < wait) {
+                    clearTimeout(me.scrollTimer);
+                }
+            };
         },
 
         _loadImgs: function () {
