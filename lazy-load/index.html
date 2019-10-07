@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="./jquery.2.0.3.js"></script>
+        <script src="./lazy-load.js"></script>
+    </head>
+    <body>
+        Demo1:
+        <div id="img1" style="width: 100%; height: 500px; overflow: scroll; margin-bottom: 200px;"></div>
+        Demo2:
+        <div id="img2"></div>
+        <script>
+            $(document).ready(function () {
+                var imgs = [
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                    'http://pic7.nipic.com/20100609/4103027_150242142417_2.jpg',
+                ];
+
+                var lazyLoad_1 = $('#img1').lazyLoad({
+                    scrollWrapper: $('#img1'),
+                    images: imgs,
+                    distance: 50,
+                    css: {
+                        display: 'block',
+                        width: '200px',
+                        height: '200px',
+                        padding: '10px',
+                    }
+                });
+
+                lazyLoad_1.load();
+
+                var lazyLoad_2 = $('#img2').lazyLoad({
+                    images: imgs,
+                    templete: '<div style="width:200px;height:200px;padding:10px;"></div>'
+                });
+
+                lazyLoad_2.load();
+            });    
+        </script>
+    </body>
+</html>
