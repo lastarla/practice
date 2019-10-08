@@ -5,14 +5,26 @@
         <script src="./form-validate.js"></script>
     </head>
     <body>
-        <form class="cmxform" id="commentForm" method="get" action="">
+        <form id="Form" method="get" action="">
             <p>
-                <label for="cname">身份证：</label>
-                <input id="id_card" name="id_card" type="text">
+                <label for="name"><span style="color: red;">*</span>姓名：</label>
+                <input id="name" type="text" name="name">
             </p>
             <p>
-                <label for="cemail">邮箱</label>
-                <input id="cemail" type="email" name="email" required>
+                <label for="email">邮箱：</label>
+                <input id="email" type="email" name="email">
+            </p>
+            <p>
+                <label for="tel">电话：</label>
+                <input id="tel" type="text" name="tel">
+            </p>
+            <p>
+                <label for="age">年龄：</label>
+                <input id="age" type="text" name="age">
+            </p>
+            <p>
+                <label for="id_card">身份证：</label>
+                <input id="id_card" type="text" name="id_card">
             </p>
             <p>
                 <input class="submit" type="submit" value="Submit">
@@ -20,7 +32,42 @@
         </form>
         <script>
             $(document).ready(function () {
-                
+                var formValidate = $('#Form').formValidate({
+                    rule: {
+                        name: {
+                            required: true
+                        },
+                        email: {
+                            email: true
+                        },
+                        tel: {
+                            tel: true
+                        },
+                        id_card: {
+                            id_card: true
+                        },
+                        age: {
+                            required: true,
+                            min: 18
+                        }
+                    }
+                });
+
+                formValidate.addMethod(
+                    'min',
+                    'change',
+                    function (value, min, message) {
+                        if (value >= min) {
+                            return true;
+                        }
+
+                        return {
+                            valid: false,
+                            message: message.replace('{min}', min)
+                        }
+                    },
+                    '不能小于{min}'
+                )
             });    
         </script>
     </body>

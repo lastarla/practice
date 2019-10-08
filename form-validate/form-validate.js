@@ -30,20 +30,34 @@
         // 初始化验证函数
         _initMethod: function () {
             var defaultMethod = {
-                required: function () {
-                    
+                required: function (value) {
+                    if (value) {
+                        return true;
+                    }
                 },
 
-                id_card: function () {
+                id_card: function (value) {
+                    var reg = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
 
+                    if (reg.test(value)) {
+                        return true;
+                    }
                 },
 
-                email: function () {
+                email: function (value) {
+                    var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
+                    if (reg.test(value)) {
+                        return true;
+                    }
                 },
 
-                tel: function () {
+                tel: function (value) {
+                    var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
 
+                    if (reg.test(value)) {
+                        return true;
+                    }
                 }
             };
 
@@ -80,21 +94,6 @@
             }
         },
 
-        addMethod: function (name, events, fn, message) {
-            this.methods  = this.methods || {};
-
-            if (!this.methods[name]) {
-                this.methods[name] = {
-                    fn: fn,
-                    events: events,
-                    message: message
-                };
-            }
-            else {
-                console.log('该验证函数已经存在');
-            }
-        },
-
         _getDom: function (el) {
             this.$form = el;
 
@@ -112,6 +111,14 @@
 
         _bindEvent: function () {
             var me = this;
+
+            setTimeout(function () {
+                me._bindEventHandle();
+            });
+        },
+
+        _bindEventHandle: function () {
+            var me = this;
             var rule = me.opts.rule;
             var forms = me.forms;
 
@@ -121,18 +128,23 @@
 
                     for (var j in obj) {
                         if (obj.hasOwnProperty(j) && obj[j]) {
-                            var method = me.methods[j];
-                            method && forms[i].on(method.events, function (e) {
-                                var $this = $(this);
-                                var value = $this.value();
+                            (function (i, j) {
+                                var method = me.methods[j];
+                                method && forms[i].on(method.events, function (e) {
+                                    var $this = $(this);
+                                    var value = $this.val();
+                                    var result = method.fn(value, obj[j], method.message );
+                                    var valid = typeof result === 'object' ? result.valid : result;
+                                    var message = typeof result === 'object' ? result.message || method.message : method.message;
 
-                                if (method.fn(value)) {
-                                    me.hideMessage($this);
-                                }
-                                else {
-                                    me.showMessage($this, method.message);
-                                }
-                            });
+                                    if (valid) {
+                                        me.hideMessage($this);
+                                    }
+                                    else {
+                                        me.showMessage($this, message);
+                                    }
+                                });
+                            })(i, j);
                         }
                     }
 
@@ -155,11 +167,33 @@
                         }
                     }
                 }
+
+                if (me.$form.find('.error').length) {
+                    return false;
+                }
             });
         },
 
+        addMethod: function (name, events, fn, message) {
+            this.methods  = this.methods || {};
+
+            if (!this.methods[name]) {
+                this.methods[name] = {
+                    fn: fn,
+                    events: events,
+                    message: message
+                };
+            }
+            else {
+                console.log('该验证函数已经存在');
+            }
+        },
+
         showMessage: function (target, message) {
-            target.after('<div class="error">' + message + '</div>')
+            if (target.siblings('.error').length) {
+                return;
+            }
+            target.after('<span class="error" style="color: red; padding: 0 10px;">' + message + '</span>')
         },
 
         hideMessage: function (target) {
