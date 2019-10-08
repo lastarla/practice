@@ -30,7 +30,6 @@
             this._getDom(el);
             this._getData();
             this._bindEvent();
-            this._loadImgs();
         },
 
         _initImg: function (el) {
@@ -157,6 +156,7 @@
 
         load: function () {
             this.start = true;
+            this._loadImgs();
         },
 
         destroy: function () {
